@@ -11,7 +11,13 @@ from messages import (
     LETTERS_ANSWER_VARIANTS,
 )
 from random import choice
+from .gemini_analyze import start_gemini_analyze
 
+
+@dp.callback_query(CallbackDataFilter(expected_data="letters-start"))
+async def letters_start_handler(callback: CallbackQuery, state: FSMContext):
+    await state.update_data(status="letters")
+    await bot.send_message(callback.from_user.id, LETTERS_START_MESSAGE)
 
 async def letters_start(user_id: int):
     await bot.send_message(user_id, LETTERS_START_MESSAGE)
@@ -24,7 +30,11 @@ async def stop_letters_handler(callback: CallbackQuery, state: FSMContext):
     if data.get("status", "") != "letters":
         return
     await bot.send_message(callback.from_user.id, LETTERS_FINISH_MESSAGE)
-    state.update_data(status="none")
+    await state.update_data(status="none")
+    data = await state.get_data()
+    letters = "\n".join(data.get("letters", []))
+    await start_gemini_analyze(callback.from_user.id, letters)
+    await state.clear()
     logger.debug(f"letters receiving is stopped, data: {data}")
 
 

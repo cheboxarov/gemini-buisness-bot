@@ -10,6 +10,8 @@
 - `BOT_TOKEN` — токен вашего Telegram-бота.
 - `DATABASE_URL` — URL базы данных для хранения данных бота.
 
+Так же для работы GeminiAPI следует добавить в ai файл config.py содержащий COOKIES HEADERS GEMINI_API_KEY PROMPT
+
 ### Запуск
 
 Чтобы запустить проект, выполните следующие команды:

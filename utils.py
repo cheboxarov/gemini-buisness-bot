@@ -10,3 +10,6 @@ async def get_user_scheme_from_user(from_user) -> UserScheme:
 def split_by_length(text: str, length: int) -> list[str]:
     """Разделяет строку на части заданной длины."""
     return [text[i:i + length] for i in range(0, len(text), length)]
+
+def delete_markdown(text: str) -> str:
+    return text.replace("*", "").replace("[", "").replace("]", "").replace("#", "")

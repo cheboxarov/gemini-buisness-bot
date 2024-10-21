@@ -18,7 +18,8 @@ async def cmd_start(message: Message, state: FSMContext):
         f"New message from {message.from_user.username} ({user.id}), message text: {message.text}"
     )
 
-    markup_list = [[InlineKeyboardButton(text="Начать бриф", callback_data="start_brief")]]
+    #markup_list = [[InlineKeyboardButton(text="Начать бриф", callback_data="start_brief")]]
+    markup_list = [[InlineKeyboardButton(text="Скинуть письма", callback_data="letters-start")]]
     if user.is_admin:
         markup_list.append([InlineKeyboardButton(text="Admin panel", callback_data='admin-menu')])
     markup = InlineKeyboardMarkup(
