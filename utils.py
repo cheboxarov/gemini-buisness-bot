@@ -4,7 +4,7 @@ async def get_user_scheme_from_user(from_user) -> UserScheme:
     return UserScheme(
         tg_id=from_user.id,
         username=from_user.username,
-        is_admin=True
+        is_admin=False
     )
 
 def split_by_length(text: str, length: int) -> list[str]:
