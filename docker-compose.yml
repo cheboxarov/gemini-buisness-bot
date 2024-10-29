@@ -13,6 +13,15 @@ services:
     depends_on:
       - db
 
+  contacts_worker:
+    restart: always
+    build: .
+    volumes:
+      - .:/app
+    command: python contacts_get_worker.py
+    depends_on:
+      - db
+
   db:
     image: postgres:latest
     environment:

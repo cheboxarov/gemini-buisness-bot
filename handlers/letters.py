@@ -33,8 +33,9 @@ async def stop_letters_handler(callback: CallbackQuery, state: FSMContext):
     await state.update_data(status="none")
     data = await state.get_data()
     letters = "\n".join(data.get("letters", []))
-    await start_gemini_analyze(callback.from_user.id, letters)
+    await start_gemini_analyze(callback.from_user.id, letters, state)
     await state.clear()
+    await state.update_data(status="get_contacts")
     logger.debug(f"letters receiving is stopped, data: {data}")
 
 

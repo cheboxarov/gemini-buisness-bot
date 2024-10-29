@@ -4,6 +4,8 @@ from .models import User
 from loguru import logger
 from schemas import UserScheme
 from sqlalchemy.exc import IntegrityError, NoResultFound
+import datetime
+from datetime import timedelta
 
 
 class UsersManager(DataBaseManager):
@@ -44,7 +46,7 @@ class UsersManager(DataBaseManager):
                     for attr, value in filters.items():
                         query = query.where(getattr(User, attr) == value)
                 result = await session.execute(query)
-                users = result.scalar().all()
+                users = result.scalars().all()
                 return users
             except Exception as err:
                 logger.error(f"error to get users: {err}")
@@ -65,6 +67,25 @@ class UsersManager(DataBaseManager):
                 await session.rollback()
                 logger.error(f"Error to create user: {error}")
                 return None
+    
+    async def update_user(self, user: User):
+        async with self.async_session() as session:
+            try:
+                session.add(user)
+                await session.commit()
+            except Exception as err:
+                logger.error(f"Ошибка при установке next_contacts_question_date: {err}")
+                await session.rollback()
+
+    async def assign_following_message(self, user_id: int):
+        user = await self.get_by_tg_id(user_id)
+        user.next_contacts_question_date = datetime.datetime.now() + timedelta(minutes=1)
+        await self.update_user(user)
+
+    async def contacts_received(self, user_id: int):
+        user = await self.get_by_tg_id(user_id)
+        user.contacts_received = True
+        await self.update_user(user)
 
 
 db_users_manager = UsersManager()
