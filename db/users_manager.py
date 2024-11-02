@@ -79,7 +79,7 @@ class UsersManager(DataBaseManager):
 
     async def assign_following_message(self, user_id: int):
         user = await self.get_by_tg_id(user_id)
-        user.next_contacts_question_date = datetime.datetime.now() + timedelta(minutes=1)
+        user.next_contacts_question_date = datetime.datetime.now() + timedelta(days=2)
         await self.update_user(user)
 
     async def contacts_received(self, user_id: int):

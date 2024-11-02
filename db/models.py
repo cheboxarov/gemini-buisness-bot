@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean, TIMESTAMP
 from sqlalchemy.orm import declarative_base
 from core import bot
-from datetime import datetime
-
 
 Base = declarative_base()
 
@@ -16,6 +14,7 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     contacts_received = Column(Boolean, default=False)
     next_contacts_question_date = Column(TIMESTAMP, nullable=True)
+    
 
     async def send_message(self, message):
         await bot.send_message(self.tg_id, message)

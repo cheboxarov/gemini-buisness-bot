@@ -18,7 +18,7 @@ async def main():
         logger.debug(users_ids)
         users = await asyncio.gather(*(user_with_context(user_id) for user_id in users_ids))
         await asyncio.gather(*(get_contacts_after_time(*user) for user in users))
-        await asyncio.sleep(CONTACTS_MESSAGE_DELAY)
+        await asyncio.sleep(60*5)
 
 async def user_with_context(user_id: int) -> tuple[int, FSMContext]:
     context = await get_state_by_user_id(user_id, bot, dp)

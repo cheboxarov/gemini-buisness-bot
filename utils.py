@@ -15,7 +15,7 @@ def split_by_length(text: str, length: int) -> list[str]:
     return [text[i:i + length] for i in range(0, len(text), length)]
 
 def delete_markdown(text: str) -> str:
-    return text.replace("*", "").replace("[", "").replace("]", "").replace("#", "")
+    return text.replace(" *", "").replace("*", "").replace("[", "").replace("]", "").replace(" #", "").replace("#", "").replace("\n ", "\n").replace("  ", " ")
 
 async def get_state_by_user_id(user_id: int, bot, dp) -> FSMContext:
     return FSMContext(
