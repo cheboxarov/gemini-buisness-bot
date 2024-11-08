@@ -51,7 +51,8 @@ async def get_contacts_after_time(user_id: int, state: FSMContext):
 @dp.callback_query(CallbackDataFilter(expected_data="get-contacts"))
 async def get_contacts_after_time_callback_handler(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-    await bot.send_message(callback.from_user.id, AFTER_GET_CONTACTS_SECOND)
+    contact_button = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Скинуть ваш номер телефона", request_contact=True)]], resize_keyboard=True)
+    await bot.send_message(callback.from_user.id, AFTER_GET_CONTACTS_SECOND, reply_markup=contact_button)
     await state.update_data(status="get-contacts-second")
 
 
